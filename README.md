@@ -50,8 +50,9 @@ A practical, audit-ready implementation toolkit for **ISO/IEC 27017:2015** (Code
 > | 9 | `09-IMPROVEMENT/` | Nonconformities, corrective actions, continual improvement |
 > | 10 | `10-ISO27017-CONTROLS/` | ISO 27017 cloud control reference (CLD.6.3, CLD.8.1, CLD.9.5, CLD.12.1, CLD.12.4, CLD.13.1) |
 > | 11 | `11-ISO27018-CONTROLS/` | ISO 27018 PII-in-public-cloud control reference (Annex A extensions) |
-> | 12 | `12-WORKED-EXAMPLE/` | Fictional Nexus Cloud Services worked implementation |
-> | 13 | `13-SCRIPTS/` | Python GRC automation scripts |
+> | 12 | `12-EVIDENCE-PACKS/` | Audit-ready evidence pack templates (access reviews, vulnerability scans, CAR records) |
+> | 12b | `12-WORKED-EXAMPLE/` | Fictional Nexus Cloud Services worked implementation |
+> | 13 | `13-SCRIPTS/` | Python GRC automation scripts (requirements.txt included) |
 > | 14 | `14-CROSS-MAPPING/` | GDPR, UAE PDPL, NIST CSF 2.0, CSA CCM, SOC 2, FedRAMP cross-mapping |
 > | 15 | `15-SUPPLEMENTARY-TEMPLATES/` | Shared-responsibility matrix, CSA checklist, supplier assurance, PII notice |
 >
@@ -112,6 +113,7 @@ A practical, audit-ready implementation toolkit for **ISO/IEC 27017:2015** (Code
 > | Version | Date | Changes |
 > |---------|------|---------|
 > | 1.0 | April 2026 | Initial release — ISO/IEC 27017:2015 + ISO/IEC 27018:2019 toolkit aligned to ISO 27001:2022 |
+> | 1.1 | April 2026 | Structure fix: resolved duplicate folder numbering, added evidence pack templates, added requirements.txt, moved AUP to 02-CLOUD-POLICY |
 >
 > ---
 >
