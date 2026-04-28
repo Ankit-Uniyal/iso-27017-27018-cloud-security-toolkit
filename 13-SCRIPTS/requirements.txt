@@ -1,0 +1,14 @@
+# Requirements for ISO 27017/27018 Cloud Security Toolkit — GRC Scripts
+# Python 3.9+ required
+
+# Core dependency for DPIA YAML descriptor support
+pyyaml>=6.0.1
+
+# Optional: for richer CLI output
+# colorama>=0.4.6
+
+# Optional: for HTML report rendering (future roadmap)
+# jinja2>=3.1.2
+
+# Dev / testing
+pytest>=7.4.0
