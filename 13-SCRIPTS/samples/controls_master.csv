@@ -1,0 +1,33 @@
+Control_ID,Standard,Section,Title
+CLD.6.3.1,ISO27017,ISO27017-CLD,Shared roles and responsibilities within a cloud environment
+CLD.8.1.5,ISO27017,ISO27017-CLD,Removal of cloud service customer assets
+CLD.9.5.1,ISO27017,ISO27017-CLD,Segregation in virtual computing environments
+CLD.9.5.2,ISO27017,ISO27017-CLD,Virtual machine hardening
+CLD.12.1.5,ISO27017,ISO27017-CLD,Administrator operational security
+CLD.12.4.5,ISO27017,ISO27017-CLD,Monitoring of cloud services
+CLD.13.1.4,ISO27017,ISO27017-CLD,Alignment of security management for virtual and physical networks
+A.1.1,ISO27018,ISO27018-AnnexA,Obligation to co-operate regarding PII principals rights
+A.2.1,ISO27018,ISO27018-AnnexA,Public cloud PII processor purpose
+A.2.2,ISO27018,ISO27018-AnnexA,Public cloud PII processor commercial use
+A.3.1,ISO27018,ISO27018-AnnexA,Collection limitation
+A.4.1,ISO27018,ISO27018-AnnexA,Secure erasure of temporary files
+A.5.1,ISO27018,ISO27018-AnnexA,PII disclosure notification
+A.5.2,ISO27018,ISO27018-AnnexA,Recording of PII disclosures
+A.6.1,ISO27018,ISO27018-AnnexA,Accuracy and quality
+A.7.1,ISO27018,ISO27018-AnnexA,Disclosure of sub-contracted PII processing
+A.8.1,ISO27018,ISO27018-AnnexA,Notification of a data breach involving PII
+A.9.1,ISO27018,ISO27018-AnnexA,Geographical location of PII accountability
+A.9.2,ISO27018,ISO27018-AnnexA,Intended destination of PII
+A.10.1,ISO27018,ISO27018-AnnexA,Confidentiality or non-disclosure agreements
+A.10.2,ISO27018,ISO27018-AnnexA,Restriction of the creation of hardcopy material
+A.10.3,ISO27018,ISO27018-AnnexA,Control and logging of data restoration
+A.10.4,ISO27018,ISO27018-AnnexA,Protecting data on storage media leaving the premises
+A.10.5,ISO27018,ISO27018-AnnexA,Use of unencrypted portable storage media and devices
+A.10.6,ISO27018,ISO27018-AnnexA,Encryption of PII transmitted over public networks
+A.10.7,ISO27018,ISO27018-AnnexA,Secure disposal of hardcopy materials
+A.10.8,ISO27018,ISO27018-AnnexA,Unique use of user IDs
+A.10.9,ISO27018,ISO27018-AnnexA,Records of authorised users
+A.10.10,ISO27018,ISO27018-AnnexA,User ID management
+A.10.11,ISO27018,ISO27018-AnnexA,Contract measures
+A.10.12,ISO27018,ISO27018-AnnexA,Sub-contracted PII processing
+A.10.13,ISO27018,ISO27018-AnnexA,Access to data on pre-used data storage space
