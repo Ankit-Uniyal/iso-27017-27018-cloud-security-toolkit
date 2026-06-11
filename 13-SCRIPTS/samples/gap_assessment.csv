@@ -1,0 +1,15 @@
+Control_ID,Domain,Title,Status,Owner,Evidence,Notes
+CLD.6.3.1,ISO27017-CLD,Shared roles and responsibilities,Implemented,CloudSecOfficer,Shared Responsibility Matrix,Reviewed Q1
+CLD.8.1.5,ISO27017-CLD,Removal of CSC assets,Implemented,CloudSecOfficer,Deletion procedure,
+CLD.9.5.1,ISO27017-CLD,Tenant isolation,Implemented,CloudSecOfficer,CSP SOC 2,
+CLD.9.5.2,ISO27017-CLD,VM hardening,Partial,Platform,CIS scan,Drift detection pending
+CLD.12.1.5,ISO27017-CLD,Admin operational security,Implemented,IAM,PAM logs,
+CLD.12.4.5,ISO27017-CLD,Monitoring of cloud services,Implemented,SOC,SIEM dashboard,
+CLD.13.1.4,ISO27017-CLD,Virtual/physical network alignment,Implemented,Network,Flow logs,
+A.1.1,ISO27018-AnnexA,DSR co-operation,Implemented,DPO,DSR procedure,
+A.5.2,ISO27018-AnnexA,Recording of PII disclosures,Partial,DPO,Disclosure register,Register being formalised
+A.7.1,ISO27018-AnnexA,Sub-processor disclosure,Implemented,DPO,Sub-processor list,
+A.8.1,ISO27018-AnnexA,PII breach notification,Not_Implemented,DPO,,Notification SLA not contracted CRITICAL
+A.9.1,ISO27018-AnnexA,Geographical location of PII,Implemented,DPO,DPA Annex II,
+A.10.6,ISO27018-AnnexA,Encryption of PII in transit,Implemented,Platform,TLS scan,
+A.11.2,ISO27018-AnnexA,Return transfer and disposal of PII,Not_Applicable,DPO,,No terminations this period
