@@ -6,6 +6,8 @@ Use this checklist to score current state against ISO 27017 cloud-specific contr
 
 **Scoring legend:** 0 = Not Started | 1 = Initial | 2 = Defined | 3 = Implemented | 4 = Managed | 5 = Optimised
 
+**Automation mapping (for 13-SCRIPTS/cloud_gap_checker.py):** when exporting this checklist to the gap CSV, convert the 0–5 maturity score to the script's `Status` field as follows — 0–1 = `Not_Implemented`, 2–4 = `Partial`, 5 = `Implemented`; use `Not_Applicable` for controls scoped out. Keep the `Control_ID` values identical to the SoA (e.g. `A.8.1`, `CLD.9.5.1`) so critical-gap flagging works.
+
 ---
 
 ## Part A — Scope and Role Declaration
