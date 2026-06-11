@@ -3,14 +3,20 @@ dpia_cloud_scorer.py
 Cloud DPIA Risk Scorer (ISO/IEC 27018 + GDPR Art. 35 aligned)
 
 Reads a DPIA YAML/JSON descriptor file, applies a deterministic risk-scoring
-matrix, and outputs a recommendation (PROCEED / PROCEED-WITH-MITIGATIONS /
-DO-NOT-PROCEED / CONSULT-REGULATOR).
+matrix, and outputs a recommendation.
+
+Verdicts (must match classify() return values exactly):
+    PROCEED                  - score < 10
+    PROCEED-WITH-MITIGATIONS - 10 <= score < 18
+    CONSULT-REGULATOR        - 18 <= score < 25
+    DO-NOT-PROCEED           - score >= 25 (GDPR Art. 36 prior consultation)
 
 Usage:
     python dpia_cloud_scorer.py --input dpia.yaml --output dpia_score.md
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import sys
@@ -21,7 +27,6 @@ try:
     _YAML = True
 except ImportError:
     _YAML = False
-
 
 # ----- Scoring weights -------------------------------------------------------
 
@@ -36,15 +41,19 @@ PII_VOLUME_WEIGHT = {
     "100k_plus": 4,
 }
 
-SPECIAL_CATEGORY_BONUS = 2          # GDPR Art. 9 / sensitive PII
+SPECIAL_CATEGORY_BONUS = 2  # GDPR Art. 9 / sensitive PII
 CHILDREN_BONUS = 2
 CROSS_BORDER_NON_ADEQUATE_BONUS = 1
-NEW_TECHNOLOGY_BONUS = 1            # GenAI, biometrics, novel cloud service
+NEW_TECHNOLOGY_BONUS = 1  # GenAI, biometrics, novel cloud service
+
+SCORE_CAP = 35
 
 
 def load_descriptor(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
-    if path.suffix in {".yaml", ".yml"} and _YAML:
+    if path.suffix in {".yaml", ".yml"}:
+        if not _YAML:
+            raise RuntimeError("pyyaml is required to read YAML descriptors (pip install pyyaml)")
         return yaml.safe_load(text)
     return json.loads(text)
 
@@ -65,12 +74,12 @@ def adjust_score(score: int, d: dict) -> int:
         score += CROSS_BORDER_NON_ADEQUATE_BONUS
     if d.get("new_technology"):
         score += NEW_TECHNOLOGY_BONUS
-    return min(score, 35)  # cap
+    return min(score, SCORE_CAP)
 
 
 def classify(score: int) -> str:
     if score >= 25:
-        return "DO-NOT-PROCEED-OR-CONSULT-REGULATOR"
+        return "DO-NOT-PROCEED"
     if score >= 18:
         return "CONSULT-REGULATOR"
     if score >= 10:
@@ -94,19 +103,19 @@ def render(d: dict, raw: int, adj: int, verdict: str) -> str:
 - New Technology: {d.get('new_technology', False)}
 
 ## Score
-- Base (L × I): **{raw}**
+- Base (L x I): **{raw}**
 - Adjusted: **{adj}**
 
 ## Verdict: **{verdict}**
 
 ## Notes
-- Verdict thresholds: <10 PROCEED · 10-17 PROCEED-WITH-MITIGATIONS · 18-24 CONSULT-REGULATOR · 25+ DO-NOT-PROCEED-OR-CONSULT
+- Verdict thresholds: <10 PROCEED | 10-17 PROCEED-WITH-MITIGATIONS | 18-24 CONSULT-REGULATOR | 25+ DO-NOT-PROCEED
 - This is a decision-support tool. Final determination requires DPO opinion.
 """
 
 
-def main(argv=None):
-    p = argparse.ArgumentParser()
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description="Cloud DPIA risk scorer")
     p.add_argument("--input", required=True, type=Path)
     p.add_argument("--output", required=True, type=Path)
     args = p.parse_args(argv)
