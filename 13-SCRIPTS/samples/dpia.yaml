@@ -1,0 +1,9 @@
+project: New AI Document Summariser
+dpia_id: DPIA-2026-014
+likelihood: possible
+impact: major
+pii_volume: 10k_100k
+special_category: false
+involves_children: false
+cross_border_non_adequate: true
+new_technology: true
