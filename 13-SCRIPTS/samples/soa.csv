@@ -1,0 +1,14 @@
+Control_ID,Title,Applicable,Status,Responsibility,Justification,Evidence,Last_Reviewed
+CLD.6.3.1,Shared roles and responsibilities,Yes,Implemented,SH,Shared Responsibility Matrix,07-OPERATION,2026-03-01
+  CLD.8.1.5,Removal of CSC assets,Yes,Implemented,CSP,Data deletion procedure,CSP attestation,2026-03-01
+  CLD.9.5.1,Segregation in virtual environments,Yes,Implemented,CSP,Tenant isolation,CSP SOC 2,2026-03-01
+  CLD.9.5.2,VM hardening,Yes,Partial,SH,CIS baselines,CIS scan,2026-03-01
+  CLD.12.1.5,Admin operational security,Yes,Implemented,SH,PAM,PAM logs,2026-03-01
+  CLD.12.4.5,Monitoring of cloud services,Yes,Implemented,SH,SIEM,SIEM dashboard,2026-03-01
+  CLD.13.1.4,Virtual/physical network alignment,Yes,Implemented,SH,Network baseline,Flow logs,2026-03-01
+  A.1.1,DSR co-operation,Yes,Implemented,CSC,DSR procedure,Ticket samples,2026-03-01
+  A.8.1,PII breach notification,Yes,Partial,CSC,72h SLA,Breach procedure,2026-03-01
+  A.9.1,Geographical location of PII,Yes,Implemented,CSC,Region pinning,DPA Annex II,2026-03-01
+  A.10.6,Encryption of PII in transit,Yes,Implemented,SH,TLS 1.2+,TLS scan,2026-03-01
+  A.11.2,Return transfer and disposal of PII,Yes,Implemented,CSC,Termination procedure,Deletion certificate,2026-03-01
+  
