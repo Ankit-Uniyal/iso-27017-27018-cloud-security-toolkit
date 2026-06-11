@@ -1,6 +1,6 @@
 """
 cloud_gap_checker.py
-Cloud ISMS Gap Checker — ISO/IEC 27017 + 27018
+Cloud ISMS Gap Checker - ISO/IEC 27017 + 27018
 
 Reads a CSV gap-assessment file, computes per-domain conformance scores,
 flags critical gaps, and produces a Markdown summary report.
@@ -10,10 +10,13 @@ Usage:
 
 CSV columns expected:
     Control_ID, Domain, Title, Status, Owner, Evidence, Notes
+
 Status values: Implemented | Partial | Not_Implemented | Not_Applicable
+(Spaced equivalents - "Not Implemented" / "Not Applicable" - are also accepted.)
 """
 
 from __future__ import annotations
+
 import argparse
 import csv
 import datetime as dt
@@ -21,21 +24,30 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+# Canonical status weights. "Not_Applicable" is excluded from scoring (None).
 STATUS_WEIGHTS = {
     "Implemented": 1.0,
     "Partial": 0.5,
     "Not_Implemented": 0.0,
-    "Not_Applicable": None,  # excluded from scoring
+    "Not_Applicable": None,
 }
 
-CRITICAL_DOMAINS = {
-    "27018-A.8.1",   # Breach notification
-    "27018-A.9.1",   # PII location
-    "27018-A.10.6",  # Encryption in transit
-    "CLD.6.3.1",     # Shared responsibility
-    "CLD.9.5.1",     # Tenant isolation
-    "CLD.12.4.5",    # Monitoring
+# Control_IDs that are treated as critical. These MUST match the Control_ID
+# values used in the gap-assessment CSV / SoA (bare identifiers, no prefix).
+CRITICAL_CONTROLS = {
+    "A.8.1",      # PII breach notification
+    "A.9.1",      # Geographical location of PII
+    "A.10.6",     # Encryption of PII in transit
+    "CLD.6.3.1",  # Shared roles and responsibilities
+    "CLD.9.5.1",  # Tenant isolation
+    "CLD.12.4.5", # Monitoring of cloud services
 }
+
+
+def normalize_status(raw: str) -> str:
+    """Accept both underscore and spaced status spellings."""
+    s = (raw or "").strip()
+    return s.replace(" ", "_") if s else s
 
 
 def load_rows(path: Path):
@@ -50,17 +62,17 @@ def score_rows(rows):
     critical_open = []
 
     for r in rows:
-        status = r.get("Status", "").strip()
-        domain = r.get("Domain", "Unknown").strip()
-        ctrl = r.get("Control_ID", "").strip()
+        status = normalize_status(r.get("Status", ""))
+        domain = (r.get("Domain") or "Unknown").strip()
+        ctrl = (r.get("Control_ID") or "").strip()
         weight = STATUS_WEIGHTS.get(status)
         by_status[status] += 1
+        if ctrl in CRITICAL_CONTROLS and status != "Implemented":
+            critical_open.append(r)
         if weight is None:
             continue
         domain_total[domain] += weight
         domain_count[domain] += 1
-        if status != "Implemented" and ctrl in CRITICAL_DOMAINS:
-            critical_open.append(r)
 
     domain_scores = {
         d: round(100.0 * domain_total[d] / domain_count[d], 1)
@@ -76,7 +88,7 @@ def score_rows(rows):
 def render_report(overall, domain_scores, by_status, critical_open) -> str:
     today = dt.date.today().isoformat()
     lines = [
-        "# Cloud ISMS Gap Assessment — Automated Report",
+        "# Cloud ISMS Gap Assessment - Automated Report",
         "",
         f"**Generated:** {today}",
         "",
@@ -96,7 +108,7 @@ def render_report(overall, domain_scores, by_status, critical_open) -> str:
 
     lines += ["", f"## Critical Gaps ({len(critical_open)})", ""]
     if not critical_open:
-        lines.append("_No critical gaps detected. _")
+        lines.append("_No critical gaps detected._")
     else:
         lines += ["| Control | Title | Status | Owner | Notes |",
                   "|---------|-------|--------|-------|-------|"]
@@ -109,8 +121,8 @@ def render_report(overall, domain_scores, by_status, critical_open) -> str:
     return "\n".join(lines)
 
 
-def main(argv=None):
-    p = argparse.ArgumentParser()
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description="ISO 27017/27018 cloud gap checker")
     p.add_argument("--input", required=True, type=Path)
     p.add_argument("--output", required=True, type=Path)
     args = p.parse_args(argv)
@@ -120,11 +132,11 @@ def main(argv=None):
         return 2
 
     rows = load_rows(args.input)
-    overall, ds, status, crit = score_rows(rows)
-    report = render_report(overall, ds, status, crit)
-    args.output.write_text(report, encoding="utf-8")
-    print(f"Wrote {args.output} (overall {overall}%, critical_open={len(crit)})")
-    return 0 if not crit else 1
+    overall, domain_scores, by_status, critical_open = score_rows(rows)
+    args.output.write_text(render_report(overall, domain_scores, by_status, critical_open) + "\n",
+                           encoding="utf-8")
+    print(f"Wrote {args.output}: overall={overall}% critical_gaps={len(critical_open)}")
+    return 1 if critical_open else 0
 
 
 if __name__ == "__main__":
